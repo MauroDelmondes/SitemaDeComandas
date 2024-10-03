@@ -1,20 +1,28 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SitemaDeComandas.Models
 {
     public class Venda
     {
         [Key]
-        public int VendaId { get; set; }
-        public string? NomeCliente { get; set; }
-        //public int PratoId { get; set; } //No futuro expandir para os demais produtos (bingo e etc.)
-        public int FormaPagamentoId { get; set; } //Pix, cartão de crédito, débito, dinheiro e etc.
-        //public int QuantidadePratos { get; set; } //No futuro expandir para os demais produtos (bingo e etc.)
-        public double PrecoTotal { get; set; }
-        public bool Pago { get; set; }
-        public bool Cancelado { get; set; } //retirar no futuro?
-        public DateTime DataHoraVenda { get; set; }
+        public required int VendaId { get; set; }
+        [Required]
+        public required string NomeCliente { get; set; }
+        [Required]
+        public required int FormaPagamentoId { get; set; } //Pix, cartão de crédito, débito, dinheiro e etc.
+        [Required]
+        public required int SituacaoVendaId { get; set; } //Pago, cancelado, estornado e etc.
+        [Required]
+        public required double PrecoTotal { get; set; }
+        [Required]
+        public required DateTime DataHoraVenda { get; set; }
         public DateTime? DataHoraAlteracao { get; set; }
-        //public DateTime? DataHoraEnviadoCozinha { get; set; }
+               
+        [ForeignKey(nameof(FormaPagamentoId))]
+        public required FormaPagamento FormaPagamento { get; set; }
+        [ForeignKey(nameof(SituacaoVendaId))]
+        public required SituacaoVenda SituacaoVenda { get; set; }
+        public ICollection<Comanda>? Comandas { get; set; }
     }
 }

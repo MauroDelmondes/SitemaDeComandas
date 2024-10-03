@@ -2,10 +2,10 @@
 
 namespace SitemaDeComandas.Models
 {
-    public class SituacaoComanda
+    public class FormaPagamento
     {
         [Key]
-        public required int SituacaoComandaId { get; set; }
+        public required int FormaPagamentoId { get; set; }
         [Required]
         public required string Descricao { get; set; }
         [Required]
@@ -14,6 +14,6 @@ namespace SitemaDeComandas.Models
         public required DateTime DataHoraCriacao { get; set; }
         public DateTime? DataHoraAlteracao { get; set; }
 
-        public ICollection<Comanda>? Comandas { get; set; }
+        public ICollection<Venda>? Vendas { get; set; }
     }
 }

@@ -22,7 +22,8 @@ namespace SitemaDeComandas.Controllers
         // GET: Produtos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Produtos.ToListAsync());
+            var sistemaComandasContext = _context.Produtos.Include(p => p.Cozinha);
+            return View(await sistemaComandasContext.ToListAsync());
         }
 
         // GET: Produtos/Details/5
@@ -34,6 +35,7 @@ namespace SitemaDeComandas.Controllers
             }
 
             var produto = await _context.Produtos
+                .Include(p => p.Cozinha)
                 .FirstOrDefaultAsync(m => m.ProdutoId == id);
             if (produto == null)
             {
@@ -46,6 +48,7 @@ namespace SitemaDeComandas.Controllers
         // GET: Produtos/Create
         public IActionResult Create()
         {
+            ViewData["CozinhaId"] = new SelectList(_context.Cozinhas, "CozinhaId", "Descricao");
             return View();
         }
 
@@ -62,6 +65,7 @@ namespace SitemaDeComandas.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CozinhaId"] = new SelectList(_context.Cozinhas, "CozinhaId", "Descricao", produto.CozinhaId);
             return View(produto);
         }
 
@@ -78,6 +82,7 @@ namespace SitemaDeComandas.Controllers
             {
                 return NotFound();
             }
+            ViewData["CozinhaId"] = new SelectList(_context.Cozinhas, "CozinhaId", "Descricao", produto.CozinhaId);
             return View(produto);
         }
 
@@ -113,6 +118,7 @@ namespace SitemaDeComandas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CozinhaId"] = new SelectList(_context.Cozinhas, "CozinhaId", "Descricao", produto.CozinhaId);
             return View(produto);
         }
 
@@ -125,6 +131,7 @@ namespace SitemaDeComandas.Controllers
             }
 
             var produto = await _context.Produtos
+                .Include(p => p.Cozinha)
                 .FirstOrDefaultAsync(m => m.ProdutoId == id);
             if (produto == null)
             {

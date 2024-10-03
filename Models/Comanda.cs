@@ -1,19 +1,30 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SitemaDeComandas.Models
 {
     public class Comanda //CozinhaVenda
     {
         [Key]
-        public int ComandaId { get; set; }
-        public int VendaId { get; set; }
-        public int CozinhaId { get; set; }
-        public int SituacaoId { get; set; }
-        public bool Viagem { get; set; }
-        public bool FilaVIP { get; set; }
-        public DateTime DataHoraCriacao { get; set; }
+        public required int ComandaId { get; set; }
+        [Required]
+        public required int VendaId { get; set; }
+        [Required]
+        public required int CozinhaId { get; set; }
+        [Required]
+        public required int SituacaoComandaId { get; set; }
+        [Required]
+        public required bool Viagem { get; set; }
+        [Required]
+        public required DateTime DataHoraCriacao { get; set; }
         public DateTime? DataHoraAlteracao { get; set; }
-        //Adicionar a posicao da comanda na fila? Ou criar uma tabela para gerenciar esta fila?
-        //cancelar/editar prato na comanda
+
+        [ForeignKey(nameof(VendaId))]
+        public required Venda Venda { get; set; }
+        [ForeignKey(nameof(CozinhaId))]
+        public required Cozinha Cozinha { get; set; }
+        [ForeignKey(nameof(SituacaoComandaId))]
+        public required SituacaoComanda? SituacaoComanda { get; set; }
+        public ICollection<Produto>? Produtos { get; set; }
     }
 }

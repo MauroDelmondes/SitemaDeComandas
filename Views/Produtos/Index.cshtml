@@ -19,9 +19,6 @@
                 @Html.DisplayNameFor(model => model.Descricao)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CozinhaId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Preco)
             </th>
             <th>
@@ -32,6 +29,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DataHoraAlteracao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cozinha)
             </th>
             <th></th>
         </tr>
@@ -46,9 +46,6 @@
                 @Html.DisplayFor(modelItem => item.Descricao)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CozinhaId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Preco)
             </td>
             <td>
@@ -59,6 +56,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DataHoraAlteracao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cozinha.Descricao)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ProdutoId">Edit</a> |

@@ -1,14 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SitemaDeComandas.Models
 {
     public class Cozinha
     {
         [Key]
-        public int CozinhaId { get; set; }
-        public string? Descricao { get; set; }
-        public int Ativo { get; set; }
-        public DateTime DataHoraCriacao { get; set; }
+        public required int CozinhaId { get; set; }
+        [Required]
+        public required string Descricao { get; set; }
+        [Required]
+        public required int Ativo { get; set; }
+        [Required]
+        public required DateTime DataHoraCriacao { get; set; }
         public DateTime? DataHoraAlteracao { get; set; }
+        
+        public ICollection<Produto>? Produtos { get; set; }
+        public ICollection<Comanda>? Comandas { get; set; }
     }
 }
