@@ -1,4 +1,4 @@
-﻿@model SitemaDeComandas.Models.Cozinha
+﻿@model SitemaDeComandas.Models.SituacaoComanda
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,13 +6,13 @@
 
 <h1>Edit</h1>
 
-<h4>Cozinha</h4>
+<h4>SituacaoComanda</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CozinhaId" />
+            <input type="hidden" asp-for="SituacaoComandaId" />
             <div class="form-group">
                 <label asp-for="Descricao" class="control-label"></label>
                 <input asp-for="Descricao" class="form-control" />

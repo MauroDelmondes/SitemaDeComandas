@@ -20,11 +20,11 @@ namespace SitemaDeComandas.Models
         public DateTime? DataHoraAlteracao { get; set; }
 
         [ForeignKey(nameof(VendaId))]
-        public required Venda Venda { get; set; }
+        public Venda? Venda { get; set; }
         [ForeignKey(nameof(CozinhaId))]
-        public required Cozinha Cozinha { get; set; }
+        public Cozinha? Cozinha { get; set; }
         [ForeignKey(nameof(SituacaoComandaId))]
-        public required SituacaoComanda? SituacaoComanda { get; set; }
-        public ICollection<Produto>? Produtos { get; set; }
+        public SituacaoComanda? SituacaoComanda { get; set; }
+        public ICollection<ProdutoComanda>? ProdutosComandas { get; set; }
     }
 }

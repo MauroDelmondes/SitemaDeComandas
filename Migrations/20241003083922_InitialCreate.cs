@@ -18,7 +18,7 @@ namespace SitemaDeComandas.Migrations
                     CozinhaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ativo = table.Column<int>(type: "int", nullable: false),
+                    Ativo = table.Column<bool>(type: "bit", nullable: false),
                     DataHoraCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataHoraAlteracao = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -34,7 +34,7 @@ namespace SitemaDeComandas.Migrations
                     FormaPagamentoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ativo = table.Column<int>(type: "int", nullable: false),
+                    Ativo = table.Column<bool>(type: "bit", nullable: false),
                     DataHoraCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataHoraAlteracao = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -50,7 +50,7 @@ namespace SitemaDeComandas.Migrations
                     SituacaoComandaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ativo = table.Column<int>(type: "int", nullable: false),
+                    Ativo = table.Column<bool>(type: "bit", nullable: false),
                     DataHoraCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataHoraAlteracao = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -66,7 +66,7 @@ namespace SitemaDeComandas.Migrations
                     SituacaoVendaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ativo = table.Column<int>(type: "int", nullable: false),
+                    Ativo = table.Column<bool>(type: "bit", nullable: false),
                     DataHoraCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataHoraAlteracao = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -85,7 +85,7 @@ namespace SitemaDeComandas.Migrations
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CozinhaId = table.Column<int>(type: "int", nullable: true),
                     Preco = table.Column<double>(type: "float", nullable: false),
-                    Ativo = table.Column<int>(type: "int", nullable: false),
+                    Ativo = table.Column<bool>(type: "bit", nullable: false),
                     DataHoraCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataHoraAlteracao = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -110,8 +110,7 @@ namespace SitemaDeComandas.Migrations
                     SituacaoVendaId = table.Column<int>(type: "int", nullable: false),
                     PrecoTotal = table.Column<double>(type: "float", nullable: false),
                     DataHoraVenda = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataHoraAlteracao = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ProdutoId = table.Column<int>(type: "int", nullable: true)
+                    DataHoraAlteracao = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -122,11 +121,6 @@ namespace SitemaDeComandas.Migrations
                         principalTable: "FormasPagamentos",
                         principalColumn: "FormaPagamentoId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vendas_Produtos_ProdutoId",
-                        column: x => x.ProdutoId,
-                        principalTable: "Produtos",
-                        principalColumn: "ProdutoId");
                     table.ForeignKey(
                         name: "FK_Vendas_SituacoesVendas_SituacaoVendaId",
                         column: x => x.SituacaoVendaId,
@@ -201,30 +195,6 @@ namespace SitemaDeComandas.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ComandaProduto",
-                columns: table => new
-                {
-                    ComandasComandaId = table.Column<int>(type: "int", nullable: false),
-                    ProdutosProdutoId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ComandaProduto", x => new { x.ComandasComandaId, x.ProdutosProdutoId });
-                    table.ForeignKey(
-                        name: "FK_ComandaProduto_Comandas_ComandasComandaId",
-                        column: x => x.ComandasComandaId,
-                        principalTable: "Comandas",
-                        principalColumn: "ComandaId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ComandaProduto_Produtos_ProdutosProdutoId",
-                        column: x => x.ProdutosProdutoId,
-                        principalTable: "Produtos",
-                        principalColumn: "ProdutoId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProdutosComandas",
                 columns: table => new
                 {
@@ -249,11 +219,6 @@ namespace SitemaDeComandas.Migrations
                         principalColumn: "ProdutoId",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ComandaProduto_ProdutosProdutoId",
-                table: "ComandaProduto",
-                column: "ProdutosProdutoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comandas_CozinhaId",
@@ -301,11 +266,6 @@ namespace SitemaDeComandas.Migrations
                 column: "FormaPagamentoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vendas_ProdutoId",
-                table: "Vendas",
-                column: "ProdutoId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Vendas_SituacaoVendaId",
                 table: "Vendas",
                 column: "SituacaoVendaId");
@@ -314,9 +274,6 @@ namespace SitemaDeComandas.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ComandaProduto");
-
             migrationBuilder.DropTable(
                 name: "ProdutosComandas");
 
@@ -327,22 +284,22 @@ namespace SitemaDeComandas.Migrations
                 name: "Comandas");
 
             migrationBuilder.DropTable(
+                name: "Produtos");
+
+            migrationBuilder.DropTable(
                 name: "SituacoesComandas");
 
             migrationBuilder.DropTable(
                 name: "Vendas");
 
             migrationBuilder.DropTable(
+                name: "Cozinhas");
+
+            migrationBuilder.DropTable(
                 name: "FormasPagamentos");
 
             migrationBuilder.DropTable(
-                name: "Produtos");
-
-            migrationBuilder.DropTable(
                 name: "SituacoesVendas");
-
-            migrationBuilder.DropTable(
-                name: "Cozinhas");
         }
     }
 }

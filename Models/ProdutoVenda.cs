@@ -19,8 +19,8 @@ namespace SitemaDeComandas.Models
         public required double PrecoTotal { get; set; }
 
         [ForeignKey(nameof(VendaId))]
-        public required Venda Venda { get; set; }
+        public Venda? Venda { get; set; }
         [ForeignKey(nameof(ProdutoId))]
-        public required Produto Produto { get; set; }
+        public Produto? Produto { get; set; }
     }
 }
