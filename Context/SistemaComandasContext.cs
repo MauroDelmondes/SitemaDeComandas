@@ -9,13 +9,14 @@ namespace SitemaDeComandas.Context
             : base(options)
         { }
 
-        public DbSet<Produto> Produtos { get; set; }
-        public DbSet<Cozinha> Cozinhas { get; set; }
-        public DbSet<Venda> Vendas { get; set; }
-        public DbSet<ProdutoVenda> ProdutosVendas { get; set; }
         public DbSet<Comanda> Comandas { get; set; }
-        public DbSet<PratoComanda> PratosComandas { get; set; }
+        public DbSet<Cozinha> Cozinhas { get; set; }
+        public DbSet<FormaPagamento> FormasPagamentos { get; set; }
+        public DbSet<Produto> Produtos { get; set; }
+        public DbSet<ProdutoComanda> ProdutosComandas { get; set; }
+        public DbSet<ProdutoVenda> ProdutosVendas { get; set; }
         public DbSet<SituacaoComanda> SituacoesComandas { get; set; }
-        public DbSet<SituacaoPratoComanda> SituacoesPratosComandas { get; set; }
+        public DbSet<SituacaoVenda> SituacoesVendas { get; set; }
+        public DbSet<Venda> Vendas { get; set; }
     }
 }
