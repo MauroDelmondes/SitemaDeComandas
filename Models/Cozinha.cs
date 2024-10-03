@@ -10,7 +10,7 @@ namespace SitemaDeComandas.Models
         [Required]
         public required string Descricao { get; set; }
         [Required]
-        public required int Ativo { get; set; }
+        public required bool Ativo { get; set; }
         [Required]
         public required DateTime DataHoraCriacao { get; set; }
         public DateTime? DataHoraAlteracao { get; set; }

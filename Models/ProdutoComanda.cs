@@ -13,9 +13,9 @@ namespace SitemaDeComandas.Models
         public required int ComandaId { get; set; }
 
         [ForeignKey(nameof(ProdutoId))]
-        public required Produto Produto { get; set; }
+        public Produto? Produto { get; set; }
         [ForeignKey(nameof(ComandaId))]
-        public required Comanda Comanda { get; set; }
+        public Comanda? Comanda { get; set; }
 
     }
 }

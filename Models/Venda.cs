@@ -20,9 +20,10 @@ namespace SitemaDeComandas.Models
         public DateTime? DataHoraAlteracao { get; set; }
                
         [ForeignKey(nameof(FormaPagamentoId))]
-        public required FormaPagamento FormaPagamento { get; set; }
+        public FormaPagamento? FormaPagamento { get; set; }
         [ForeignKey(nameof(SituacaoVendaId))]
-        public required SituacaoVenda SituacaoVenda { get; set; }
+        public SituacaoVenda? SituacaoVenda { get; set; }
+        public ICollection<ProdutoVenda>? ProdutosVendas { get; set; }
         public ICollection<Comanda>? Comandas { get; set; }
     }
 }

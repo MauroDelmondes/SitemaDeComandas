@@ -14,14 +14,14 @@ namespace SitemaDeComandas.Models
         [Required]
         public required double Preco { get; set; }
         [Required]
-        public required int Ativo { get; set; }
+        public required bool Ativo { get; set; } //bit
         [Required]
         public required DateTime DataHoraCriacao { get; set; }
         public DateTime? DataHoraAlteracao { get; set; }
         
         [ForeignKey(nameof(CozinhaId))]
         public Cozinha? Cozinha { get; set; }
-        public ICollection<Comanda>? Comandas { get; set; }
-        public ICollection<Venda>? Vendas { get; set; }
+        public ICollection<ProdutoVenda>? ProdutosVendas { get; set; }
+        public ICollection<ProdutoComanda>? ProdutosComandas { get; set; }
     }
 }

@@ -22,21 +22,6 @@ namespace SitemaDeComandas.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ComandaProduto", b =>
-                {
-                    b.Property<int>("ComandasComandaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProdutosProdutoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ComandasComandaId", "ProdutosProdutoId");
-
-                    b.HasIndex("ProdutosProdutoId");
-
-                    b.ToTable("ComandaProduto");
-                });
-
             modelBuilder.Entity("SitemaDeComandas.Models.Comanda", b =>
                 {
                     b.Property<int>("ComandaId")
@@ -82,8 +67,8 @@ namespace SitemaDeComandas.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CozinhaId"));
 
-                    b.Property<int>("Ativo")
-                        .HasColumnType("int");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("DataHoraAlteracao")
                         .HasColumnType("datetime2");
@@ -108,8 +93,8 @@ namespace SitemaDeComandas.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FormaPagamentoId"));
 
-                    b.Property<int>("Ativo")
-                        .HasColumnType("int");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("DataHoraAlteracao")
                         .HasColumnType("datetime2");
@@ -134,8 +119,8 @@ namespace SitemaDeComandas.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProdutoId"));
 
-                    b.Property<int>("Ativo")
-                        .HasColumnType("int");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("CozinhaId")
                         .HasColumnType("int");
@@ -226,8 +211,8 @@ namespace SitemaDeComandas.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SituacaoComandaId"));
 
-                    b.Property<int>("Ativo")
-                        .HasColumnType("int");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("DataHoraAlteracao")
                         .HasColumnType("datetime2");
@@ -252,8 +237,8 @@ namespace SitemaDeComandas.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SituacaoVendaId"));
 
-                    b.Property<int>("Ativo")
-                        .HasColumnType("int");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("DataHoraAlteracao")
                         .HasColumnType("datetime2");
@@ -294,9 +279,6 @@ namespace SitemaDeComandas.Migrations
                     b.Property<double>("PrecoTotal")
                         .HasColumnType("float");
 
-                    b.Property<int?>("ProdutoId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SituacaoVendaId")
                         .HasColumnType("int");
 
@@ -304,26 +286,9 @@ namespace SitemaDeComandas.Migrations
 
                     b.HasIndex("FormaPagamentoId");
 
-                    b.HasIndex("ProdutoId");
-
                     b.HasIndex("SituacaoVendaId");
 
                     b.ToTable("Vendas");
-                });
-
-            modelBuilder.Entity("ComandaProduto", b =>
-                {
-                    b.HasOne("SitemaDeComandas.Models.Comanda", null)
-                        .WithMany()
-                        .HasForeignKey("ComandasComandaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SitemaDeComandas.Models.Produto", null)
-                        .WithMany()
-                        .HasForeignKey("ProdutosProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("SitemaDeComandas.Models.Comanda", b =>
@@ -365,13 +330,13 @@ namespace SitemaDeComandas.Migrations
             modelBuilder.Entity("SitemaDeComandas.Models.ProdutoComanda", b =>
                 {
                     b.HasOne("SitemaDeComandas.Models.Comanda", "Comanda")
-                        .WithMany()
+                        .WithMany("ProdutosComandas")
                         .HasForeignKey("ComandaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SitemaDeComandas.Models.Produto", "Produto")
-                        .WithMany()
+                        .WithMany("ProdutosComandas")
                         .HasForeignKey("ProdutoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -384,13 +349,13 @@ namespace SitemaDeComandas.Migrations
             modelBuilder.Entity("SitemaDeComandas.Models.ProdutoVenda", b =>
                 {
                     b.HasOne("SitemaDeComandas.Models.Produto", "Produto")
-                        .WithMany()
+                        .WithMany("ProdutosVendas")
                         .HasForeignKey("ProdutoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SitemaDeComandas.Models.Venda", "Venda")
-                        .WithMany()
+                        .WithMany("ProdutosVendas")
                         .HasForeignKey("VendaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -408,10 +373,6 @@ namespace SitemaDeComandas.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SitemaDeComandas.Models.Produto", null)
-                        .WithMany("Vendas")
-                        .HasForeignKey("ProdutoId");
-
                     b.HasOne("SitemaDeComandas.Models.SituacaoVenda", "SituacaoVenda")
                         .WithMany("Vendas")
                         .HasForeignKey("SituacaoVendaId")
@@ -421,6 +382,11 @@ namespace SitemaDeComandas.Migrations
                     b.Navigation("FormaPagamento");
 
                     b.Navigation("SituacaoVenda");
+                });
+
+            modelBuilder.Entity("SitemaDeComandas.Models.Comanda", b =>
+                {
+                    b.Navigation("ProdutosComandas");
                 });
 
             modelBuilder.Entity("SitemaDeComandas.Models.Cozinha", b =>
@@ -437,7 +403,9 @@ namespace SitemaDeComandas.Migrations
 
             modelBuilder.Entity("SitemaDeComandas.Models.Produto", b =>
                 {
-                    b.Navigation("Vendas");
+                    b.Navigation("ProdutosComandas");
+
+                    b.Navigation("ProdutosVendas");
                 });
 
             modelBuilder.Entity("SitemaDeComandas.Models.SituacaoComanda", b =>
@@ -453,6 +421,8 @@ namespace SitemaDeComandas.Migrations
             modelBuilder.Entity("SitemaDeComandas.Models.Venda", b =>
                 {
                     b.Navigation("Comandas");
+
+                    b.Navigation("ProdutosVendas");
                 });
 #pragma warning restore 612, 618
         }
