@@ -2,46 +2,122 @@
 
 @{
     ViewData["Title"] = "Create";
+    int produtoQtd = 7;
 }
 
-<h1>Create</h1>
-
-<h4>Venda</h4>
+<h1>Nova venda</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
+            <button type="button" class="btn btn-outline-primary" id="btn-add-prod" data-bs-toggle="modal" data-bs-target="#produtos-modal">Adicionar produtos</button>
+
+            @* Modal *@
+
+            <div class="modal fade" id="produtos-modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-lg">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Seleção de produtos</h4>
+                            <button type="button" class="btn btn-close close" id="btn-close-modal" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="container">
+                                @if (produtoQtd > 0)
+                                {
+                                    <div class="row">
+                                        @for (int i = 0; i < produtoQtd; i++)
+                                        {
+                                            <div class="py-3 col-6 col-sm-6 col-md-4 col-lg-4">
+                                                <div class="card">
+                                                    <img src="" class="card-img-top" alt="yakisoba">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">Yakisoba</h5>
+                                                        <p class="card-text">Macarrão, legumes e carne.</p>
+                                                    </div>
+                                                    <ul class="list-group list-group-flush">
+                                                        <li class="list-group-item">
+                                                            <label id="preco-unitario-@i">R$20,00</label>
+                                                        </li>
+                                                        <li class="input-group">
+                                                            <div class="input-group">
+                                                                <button type="button" class="btn btn-primary" id="btn-diminui-qtd-@i">-</button>
+                                                                <input type="text" class="form-control bg-light text-center" id="input-qtd-@i" value="0" disabled>
+                                                                <button type="button" class="btn btn-primary" id="btn-aumenta-qtd-@i">+</button>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <button type="button" class="btn btn-success col-12" id="btn-add-produtos" data-bs-dismiss="modal">Adicionar pedidos à venda</button>
+                                }
+                                else
+                                {
+                                    <h1>Não foi possível encontrar nenhum produto cadastrado ou ativo, verifique.</h1>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Cod.</th>
+                        <th>Nome</th>
+                        <th>Qtd. Un.</th>
+                        <th>Val. Unit.</th>
+                        <th>Val. Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Yakisoba</td>
+                        <td>2</td>
+                        <td>20.00</td>
+                        <td>40.00</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Sushi</td>
+                        <td>1</td>
+                        <td>15.00</td>
+                        <td>15.00</td>
+                    </tr>
+                </tbody>
+            </table>
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NomeCliente" class="control-label"></label>
+                <label asp-for="NomeCliente" class="control-label">Nome do cliente</label>
                 <input asp-for="NomeCliente" class="form-control" />
                 <span asp-validation-for="NomeCliente" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FormaPagamentoId" class="control-label"></label>
+                <label asp-for="FormaPagamentoId" class="control-label">Forma de pagamento</label>
                 <select asp-for="FormaPagamentoId" class ="form-control" asp-items="ViewBag.FormaPagamentoId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="SituacaoVendaId" class="control-label"></label>
+                <label asp-for="SituacaoVendaId" class="control-label">Status</label>
                 <select asp-for="SituacaoVendaId" class ="form-control" asp-items="ViewBag.SituacaoVendaId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="PrecoTotal" class="control-label"></label>
-                <input asp-for="PrecoTotal" class="form-control" />
+                <label asp-for="PrecoTotal" class="control-label">Preço total</label>
+                <span asp-for ="PrecoTotal" class="form-control bg-light">R$0,00</span>
                 <span asp-validation-for="PrecoTotal" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DataHoraVenda" class="control-label"></label>
-                <input asp-for="DataHoraVenda" class="form-control" />
-                <span asp-validation-for="DataHoraVenda" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataHoraAlteracao" class="control-label"></label>
-                <input asp-for="DataHoraAlteracao" class="form-control" />
-                <span asp-validation-for="DataHoraAlteracao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Vender" class="btn btn-success" />
             </div>
         </form>
     </div>
@@ -53,4 +129,22 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            for (let i = 0; i < @produtoQtd; i++) {
+                $('#btn-aumenta-qtd-' + i).on('click', function () {
+                    let quantidade = parseInt($('#input-qtd-' + i).val()) || 0;
+                    $('#input-qtd-' + i).val(quantidade + 1);
+                });
+
+                $('#btn-diminui-qtd-' + i).on('click', function () {
+                    let quantidade = parseInt($('#input-qtd-' + i).val()) || 0;
+                    if (quantidade > 0) {
+                        $('#input-qtd-' + i).val(quantidade - 1);
+                    }
+                });
+            }
+        });
+    </script>
 }

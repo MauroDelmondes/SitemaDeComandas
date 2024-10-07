@@ -166,5 +166,10 @@ namespace SitemaDeComandas.Controllers
         {
             return _context.Vendas.Any(e => e.VendaId == id);
         }
+
+        public ActionResult ProdutosModal(string? id) {  
+            ViewBag.prodsQtd = String.IsNullOrEmpty(id) || String.IsNullOrWhiteSpace(id) ? 0 : Convert.ToInt32(id); //provisório para realizar testes, TODO buscar produtos no DB
+            return View();
+        }
     }
 }

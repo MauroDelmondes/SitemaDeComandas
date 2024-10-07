@@ -10,6 +10,7 @@ namespace SitemaDeComandas.Models
         [Required]
         public required string Nome { get; set; }
         public string? Descricao { get; set; }
+        public byte[] Imagem { get; set; }
         public int? CozinhaId { get; set; }
         [Required]
         public required double Preco { get; set; }
