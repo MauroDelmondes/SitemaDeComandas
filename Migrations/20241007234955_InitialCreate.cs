@@ -83,6 +83,7 @@ namespace SitemaDeComandas.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Imagem = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CozinhaId = table.Column<int>(type: "int", nullable: true),
                     Preco = table.Column<double>(type: "float", nullable: false),
                     Ativo = table.Column<bool>(type: "bit", nullable: false),

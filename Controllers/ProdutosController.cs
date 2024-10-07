@@ -57,7 +57,7 @@ namespace SitemaDeComandas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProdutoId,Nome,Descricao,CozinhaId,Preco,Ativo,DataHoraCriacao,DataHoraAlteracao")] Produto produto)
+        public async Task<IActionResult> Create([Bind("ProdutoId,Nome,Descricao,Imagem,CozinhaId,Preco,Ativo,DataHoraCriacao,DataHoraAlteracao")] Produto produto)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace SitemaDeComandas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProdutoId,Nome,Descricao,CozinhaId,Preco,Ativo,DataHoraCriacao,DataHoraAlteracao")] Produto produto)
+        public async Task<IActionResult> Edit(int id, [Bind("ProdutoId,Nome,Descricao,Imagem,CozinhaId,Preco,Ativo,DataHoraCriacao,DataHoraAlteracao")] Produto produto)
         {
             if (id != produto.ProdutoId)
             {

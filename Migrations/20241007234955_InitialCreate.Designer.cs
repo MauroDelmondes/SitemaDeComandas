@@ -12,7 +12,7 @@ using SitemaDeComandas.Context;
 namespace SitemaDeComandas.Migrations
 {
     [DbContext(typeof(SistemaComandasContext))]
-    [Migration("20241003083922_InitialCreate")]
+    [Migration("20241007234955_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -136,6 +136,9 @@ namespace SitemaDeComandas.Migrations
 
                     b.Property<string>("Descricao")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Imagem")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
