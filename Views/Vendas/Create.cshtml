@@ -1,8 +1,9 @@
-﻿@model SitemaDeComandas.Models.Venda
+﻿@using Newtonsoft.Json
+@model SitemaDeComandas.Models.ViewModel.VendaViewModel
 
 @{
     ViewData["Title"] = "Create";
-    int produtoQtd = 7;
+
 }
 
 <h1>Nova venda</h1>
@@ -26,27 +27,27 @@
                         <div class="modal-body">
 
                             <div class="container">
-                                @if (produtoQtd > 0)
+                                @if (Model.produtos.Count() > 0)
                                 {
                                     <div class="row">
-                                        @for (int i = 0; i < produtoQtd; i++)
+                                        @foreach (var produto in Model.produtos)
                                         {
                                             <div class="py-3 col-6 col-sm-6 col-md-4 col-lg-4">
                                                 <div class="card">
                                                     <img src="" class="card-img-top" alt="yakisoba">
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Yakisoba</h5>
-                                                        <p class="card-text">Macarrão, legumes e carne.</p>
+                                                        <h5 class="card-title">@produto.Nome</h5>
+                                                        <p class="card-text">@produto.Descricao</p>
                                                     </div>
                                                     <ul class="list-group list-group-flush">
                                                         <li class="list-group-item">
-                                                            <label id="preco-unitario-@i">R$20,00</label>
+                                                            <label id="preco-unitario-@produto.ProdutoId">R$@produto.Preco</label>
                                                         </li>
                                                         <li class="input-group">
                                                             <div class="input-group">
-                                                                <button type="button" class="btn btn-primary" id="btn-diminui-qtd-@i">-</button>
-                                                                <input type="text" class="form-control bg-light text-center" id="input-qtd-@i" value="0" disabled>
-                                                                <button type="button" class="btn btn-primary" id="btn-aumenta-qtd-@i">+</button>
+                                                                <button type="button" class="btn btn-primary" id="btn-diminui-qtd-@produto.ProdutoId">-</button>
+                                                                <input type="text" class="form-control bg-light text-center" id="input-qtd-@produto.ProdutoId" value="0" disabled>
+                                                                <button type="button" class="btn btn-primary" id="btn-aumenta-qtd-@produto.ProdutoId">+</button>
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -128,20 +129,24 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
-    <script>
+    <script type="text/javascript">
+        var produtosIds = @JsonConvert.SerializeObject(Model.produtos.Select(prd => prd.ProdutoId).ToArray());
+
         $(document).ready(function () {
-            for (let i = 0; i < @produtoQtd; i++) {
-                $('#btn-aumenta-qtd-' + i).on('click', function () {
-                    let quantidade = parseInt($('#input-qtd-' + i).val()) || 0;
-                    $('#input-qtd-' + i).val(quantidade + 1);
+            for (let i = 0; i < produtosIds.length; i++) {
+                $('#btn-aumenta-qtd-' + produtosIds[i]).on('click', function () {
+                    let quantidade = parseInt($('#input-qtd-' + produtosIds[i]).val()) || 0;
+                    $('#input-qtd-' + produtosIds[i]).val(quantidade + 1);
                 });
-
-                $('#btn-diminui-qtd-' + i).on('click', function () {
-                    let quantidade = parseInt($('#input-qtd-' + i).val()) || 0;
+                
+                $('#btn-diminui-qtd-' + produtosIds[i]).on('click', function () {
+                    let quantidade = parseInt($('#input-qtd-' + produtosIds[i]).val()) || 0;
                     if (quantidade > 0) {
-                        $('#input-qtd-' + i).val(quantidade - 1);
+                        $('#input-qtd-' + produtosIds[i]).val(quantidade - 1);
                     }
                 });
             }

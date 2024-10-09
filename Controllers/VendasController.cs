@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SitemaDeComandas.Context;
 using SitemaDeComandas.Models;
+using SitemaDeComandas.Models.ViewModel;
 
 namespace SitemaDeComandas.Controllers
 {
@@ -51,7 +52,10 @@ namespace SitemaDeComandas.Controllers
         {
             ViewData["FormaPagamentoId"] = new SelectList(_context.FormasPagamentos, "FormaPagamentoId", "Descricao");
             ViewData["SituacaoVendaId"] = new SelectList(_context.SituacoesVendas, "SituacaoVendaId", "Descricao");
-            return View();
+            var model = new VendaViewModel { 
+                produtos = _context.Produtos.Select(p => p).Where(p => p.Ativo == true).ToList()
+            };
+            return View(model);
         }
 
         // POST: Vendas/Create
