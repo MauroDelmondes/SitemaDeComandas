@@ -135,7 +135,6 @@ namespace SitemaDeComandas.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("Imagem")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Nome")
