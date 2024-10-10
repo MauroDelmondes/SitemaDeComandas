@@ -53,7 +53,7 @@ namespace SitemaDeComandas.Controllers
             ViewData["FormaPagamentoId"] = new SelectList(_context.FormasPagamentos, "FormaPagamentoId", "Descricao");
             ViewData["SituacaoVendaId"] = new SelectList(_context.SituacoesVendas, "SituacaoVendaId", "Descricao");
             var model = new VendaViewModel { 
-                produtos = _context.Produtos.Select(p => p).Where(p => p.Ativo == true).ToList()
+                Produtos = _context.Produtos.Select(p => p).Where(p => p.Ativo == true).ToList()
             };
             return View(model);
         }
